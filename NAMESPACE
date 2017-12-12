@@ -1,0 +1,3 @@
+useDynLib(mbsi, .registration=TRUE)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
