@@ -13,7 +13,7 @@
 A \code{ggplot} object. The graph is shown when this object is printed.
 }
 \description{
-\code{ggp.mbsi} make a graph of the mean and coverage interval obtained when
+\code{plot.mbsi} make a graph of the mean and coverage interval obtained when
 computing the \code{spi}. This is useful to evaluate the seasonal behaviour and
 the parameter estimation made by the classical SPI.
 }

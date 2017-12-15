@@ -21,8 +21,8 @@ example, 53 weeks, 12 months, 365 days. As it can be seen, it depends of the uni
 of the argument \code{time}.}
 }
 \value{
-A dataframe consisting of \code{y}, \code{time}, \code{spi}, \code{mu},
-\code{sigma} and \code{pzero}.
+A dataframe consisting of \code{y}, \code{time}, \code{season}, \code{mu},
+\code{sigma}, \code{pzero}, \code{ecdf} and \code{spi}.
 }
 \description{
 \code{spi} computes the spi index using \code{gamlss} models.

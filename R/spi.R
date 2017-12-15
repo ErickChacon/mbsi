@@ -19,8 +19,8 @@
 #' example, 53 weeks, 12 months, 365 days. As it can be seen, it depends of the units
 #' of the argument \code{time}.
 #'
-#' @return A dataframe consisting of \code{y}, \code{time}, \code{spi}, \code{mu},
-#' \code{sigma} and \code{pzero}.
+#' @return A dataframe consisting of \code{y}, \code{time}, \code{season}, \code{mu},
+#' \code{sigma}, \code{pzero}, \code{ecdf} and \code{spi}.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
@@ -63,7 +63,7 @@ spi <- function(y, time, tscale = 1, period = 52) {
 fit_iid_ZAGA <- function (data) {
   data0 <- na.omit(data)
   gam1 <- gamlss::gamlss(y ~ 1, sigma.formula = ~ 1, nu.formula = ~ 1,
-                         data = data0, family = gamlss.dist::ZAGA)
+                         data = data0, family = gamlss.dist::ZAGA, trace = FALSE)
   mu <- gamlss::lpred(gam1, what = "mu", type = "response")[1]
   sigma <- gamlss::lpred(gam1, what = "sigma", type = "response")[1]
   nu <- gamlss::lpred(gam1, what = "nu", type = "response")[1]
