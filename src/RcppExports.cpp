@@ -15,9 +15,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// runmean
+Rcpp::NumericVector runmean(Rcpp::NumericVector a, int width);
+RcppExport SEXP _mbsi_runmean(SEXP aSEXP, SEXP widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< int >::type width(widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(runmean(a, width));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_mbsi_rcpp_hello_world", (DL_FUNC) &_mbsi_rcpp_hello_world, 0},
+    {"_mbsi_runmean", (DL_FUNC) &_mbsi_runmean, 2},
     {NULL, NULL, 0}
 };
 

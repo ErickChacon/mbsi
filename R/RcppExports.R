@@ -6,3 +6,32 @@ rcpp_hello_world <- function() {
     .Call(`_mbsi_rcpp_hello_world`)
 }
 
+#' @title Moving average.
+#'
+#' @description
+#' \code{runmean} computes the moving average of a time series.
+#'
+#' @details
+#' details.
+#'
+#' @param a Vector of values representing the original time series.
+#' @param width The number of values to consider for the average.
+#'
+#' @return A moving average of the time series.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#'
+#' x <- 1:10
+#' runmean(x, width = 1)
+#' runmean(x, width = 2)
+#' runmean(x, width = 3)
+#'
+#' @importFrom Rcpp evalCpp
+#'
+#' @export
+runmean <- function(a, width) {
+    .Call(`_mbsi_runmean`, a, width)
+}
+

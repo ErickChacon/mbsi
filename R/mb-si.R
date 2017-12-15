@@ -59,25 +59,6 @@ spi_week <- function(rain, tscale = 1, period = 365 / 7, package = "gamlss", plo
     # 2) stepGAIC only works if form_mu and form_sg exits in the global env.
     # Solution: use <<- instead of <- for global assignment.
   } else {
-    # # require(bamlss)
-    # # Modelling meanrain to select harmonic terms.
-    # lm0 <- lm(paste0("rain_level ~ 1", terms), data)
-    # lm1 <- step(lm0, trace = 0)
-    # # lm1 <- step(lm0, trace = 0, k = log(nrow(data)))
-    #
-    # # Distributional model for rain_level.
-    # # form_lss <- list(update(formula(lm1), rain_level ~ .),
-    # #                  update(formula(lm1), sigma ~ .))
-    # form0 <- as.character(formula(lm1))
-    # form0 <- as.formula(paste(form0[2], form0[1], form0[3]))
-    # # form0 <- formula(lm1)
-    # form_lss <- list(update(form0, rain_level ~ .),
-    #                  update(form0, sigma ~ .))
-    #
-    # # form_lss <- list(rain_level ~ 1,
-    # #                  sigma ~ 1)
-    # lss <- bamlss(form_lss, family = "gamma", data = data)
-    # data[c("mu", "sigma")] <- predict(lss, data, type = "parameter")
   }
 
   # Compute the spi and additional variables.
