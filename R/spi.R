@@ -73,17 +73,19 @@ fit_iid_ZAGA <- function (data) {
   return(data)
 }
 
-#' @title Plot fitting 
+#' @title Plot fitting when computing the SPI
 #'
 #' @description
-#' \code{function} description.
+#' \code{plot.mbsi} make a graph of the mean and coverage interval obtained when
+#' computing the \code{spi}. This is useful to evaluate the seasonal behaviour and
+#' the parameter estimation made by the classical SPI.
 #'
 #' @details
 #' details.
 #'
-#' @param par.
+#' @param data An \code{mbsi} object returned by \code{spi}.
 #'
-#' @return return.
+#' @return A \code{ggplot} object. The graph is shown when this object is printed.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
@@ -92,12 +94,12 @@ fit_iid_ZAGA <- function (data) {
 #'
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather
-#' @importFrom gamlss.dist pZAGA ZAGA
+#' @importFrom gamlss.dist qZAGA
 #' @importFrom ggplot2 ggplot aes geom_ribbon geom_line scale_colour_brewer theme
 #' @importFrom ggplot2 element_blank
 #'
 #' @export
-ggplot.mbsi <- function (data) {
+plot.mbsi <- function (data) {
 
   data <- data %>%
     dplyr::mutate(
@@ -128,6 +130,4 @@ ggplot.mbsi <- function (data) {
 
   return(gg_mbsi)
 }
-
-
 

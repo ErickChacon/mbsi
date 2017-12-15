@@ -42,17 +42,9 @@ roxygen2::roxygenize(getwd(), roclets = c("collate", "namespace", "rd"))
 devtools::install_local(getwd())
 
 library(mbsi)
-library(dplyr)
+# library(tidyverse)
+# library(dplyr)
 bla <- mbsi::spi(data$rain, data$time)
-ggbla <- ggplot(bla)
+ggbla <- plot(bla)
 ggbla
-
-
-
-
-plot(bla$time, bla$y)
-lines(bla$time, bla$mu)
-
-
-class(bla) <- c("mbsi", class(bla))
 
