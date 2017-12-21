@@ -2,6 +2,7 @@
 # CLEAN WORKSPACE AND LOAD PACKAGES --------------------------------------------
 
 rm(list = ls())
+setwd("..")
 # library(day2day)
 #
 # CUSTOM FUNCTIONS -------------------------------------------------------------
@@ -21,6 +22,8 @@ exp_cov <- function (dis, phi, sigma2) {
 
 # SIMULATE RAINFALL ------------------------------------------------------------
 
+
+set.seed(1)
 weeks <- 1:52
 years <- 1:10
 data <- expand.grid(weeks = weeks, years = years)
@@ -32,6 +35,9 @@ data <- transform(data, rain = day2day::rgamma_mu(520, exp(-2 + season + gp), ex
 plot(data$time, data$rain, type = "b")
 lines(data$time, exp(-2 + data$season), col = 2)
 databla <- data
+simrain <- data
+save(simrain, file = file.path("data", "simrain.RData"))
+
 
 # COMPUTE CLASSIC SPI ----------------------------------------------------------
 
@@ -42,19 +48,57 @@ Rcpp::compileAttributes(getwd())
 roxygen2::roxygenize(getwd(), roclets = c("collate", "namespace", "rd"))
 devtools::install_local(getwd())
 
+devtools::check()
+
 library(mbsi)
-# library(tidyverse)
-# library(dplyr)
 bla <- mbsi::spi(data$rain, data$time)
-ggbla <- plot(bla)
-ggbla
+plot(bla)
+plot(bla, which = "ecdf", binwidth = 0.05)
+plot_extremes(bla, 2)
 
-library(mbsi)
-bla <- mbsi::mbsi(data$rain, data$time, period = 52)
-ggbla <- plot(bla)
-ggbla
+bla <- mbsi::mbsi(data$rain, data$time, period = 52, tscale = 8)
+plot(bla)
+plot(bla, which = "ecdf")
+plot_extremes(bla, 2)
 
-plot(bla$time, bla$y)
-lines(bla$time, bla$mu)
+tools::showNonASCII(readLines("man/find_flood_drought.Rd"))
 
-plot(bla$season, bla$y)
+
+t.data.frame <- function(x) {
+    x <- as.matrix(x)
+    NextMethod("t")
+}
+
+ok <- data.frame(x = 1:5)
+
+ok <- as.character(1:5)
+sum.character <- function(x) {
+  x <- as.numeric(x)
+  NextMethod("sum")
+}
+sum.character(ok)
+
+sum(ok)
+
+x <- structure(1, class = letters)
+bar <- function(x) UseMethod("bar", x)
+bar.z <- function(x) "z"
+bar(x)
+
+
+baz <- function(x) UseMethod("baz", x)
+baz.A <- function(x) "A"
+baz.B <- function(x) "B"
+
+ab <- structure(1, class = c("A", "B"))
+ba <- structure(1, class = c("B", "A"))
+baz(ab)
+baz(ba)
+
+baz.C <- function(x) c("C", NextMethod())
+ca <- structure(1, class = c("C", "A"))
+cb <- structure(1, class = c("C", "B"))
+baz(ca)
+baz(cb)
+
+

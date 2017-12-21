@@ -30,8 +30,8 @@
 #' @export
 mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
 
-  # Compute moving average of y based on time-scale
-  y <- runmean(y, tscale)
+  # # Compute moving average of y based on time-scale
+  # y <- runmean(y, tscale)
 
   # Create data frame and add season
   data <- data.frame(y, time = 1:length(y))
@@ -40,7 +40,7 @@ mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
 
   # Fit gamlss
   # The optimization does not work when using gamlss::pbc, weird!!
-  predict.gamlss <- getFromNamespace("pbc", "gamlss")
+  pbc <- getFromNamespace("pbc", "gamlss")
   form_mu <- y ~ pbc(season)
   form <- ~ pbc(season)
   data0 <<- na.omit(data)
@@ -70,12 +70,85 @@ mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
 
   # Compute the spi
   data <- data %>% dplyr::mutate(
-    ecdf = gamlss.dist::pZAGA(y, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
-    spi = qnorm(ecdf)
+    ecdf0 = gamlss.dist::pZAGA(y, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+    spi0 = qnorm(ecdf0),
+    spi = runmean(spi0, width = tscale) * sqrt(tscale),
+    ecdf = pnorm(spi)
     )
 
   class(data) <- c("mbsi", class(data))
 
   return(data)
 }
+
+
+#' @title Plot fitting when computing the SPI
+#'
+#' @description
+#' \code{plot.mbsi} make a graph of the mean and coverage interval obtained when
+#' computing the \code{spi}. This is useful to evaluate the seasonal behaviour and
+#' the parameter estimation made by the classical SPI.
+#'
+#' @details
+#' details.
+#'
+#' @param data An \code{mbsi} object returned by \code{spi}.
+#'
+#' @return A \code{ggplot} object. The graph is shown when this object is printed.
+#'
+#' @author Erick A. Chacon-Montalvan
+#'
+#' @examples
+#' 
+#'
+#' @importFrom dplyr mutate
+#' @importFrom tidyr gather
+#' @importFrom gamlss.dist qZAGA
+#' @importFrom ggplot2 ggplot aes geom_ribbon geom_line scale_colour_brewer theme
+#' @importFrom ggplot2 element_blank
+#'
+#' @export
+plot.mbsi <- function (x, which = c("fit", "ecdf"), binwidth = 0.05, ...) {
+
+  data <- x
+  which <- which[1]
+
+  if (which == "fit") {
+    data <- data %>%
+      dplyr::mutate(
+        q025 = gamlss.dist::qZAGA(0.025, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+        q975 = gamlss.dist::qZAGA(0.975, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero)
+        )
+
+    data_longer <- data %>%
+      tidyr::gather(varname, varvalue, y, mu) %>%
+      dplyr::mutate(
+        varname = factor(
+          varname,
+          c("y", "mu"),
+          c( "Moving average ", "Estimated mean"))
+        )
+
+    gg_mbsi <- data %>%
+      ggplot2::ggplot(ggplot2::aes(time, y)) +
+      ggplot2::geom_ribbon(
+        ggplot2::aes(ymin = q025, ymax = q975, fill = "95% Coverage interval"),
+        col = rgb(1,0,0, 0.3), alpha = 0.1
+        ) +
+      ggplot2::geom_line(aes(y = varvalue, col = varname, linetype = varname),
+        data_longer) +
+      ggplot2::scale_colour_brewer(palette = "Set1", direction = -1) +
+      ggplot2::theme(legend.position = "bottom",
+                     legend.title = ggplot2::element_blank(),
+                     axis.title.x = ggplot2::element_blank())
+  } else if (which == "ecdf") {
+    gg_mbsi <- data %>%
+      ggplot2::ggplot(ggplot2::aes(ecdf)) +
+      ggplot2::geom_histogram(binwidth = binwidth, center = binwidth/2)
+  }
+
+  return(gg_mbsi)
+}
+
+
 

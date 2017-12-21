@@ -9,6 +9,13 @@ Maintainer: Erick A. Chacon-Montalvan <eral.th07@gmail.com>
 Description: Tools to compute the model-based standardized index, and to identify
     and visualize extreme events based on this index.
 License: GPL (>= 2) | file LICENSE
-Imports: Rcpp (>= 0.12.14)
+Imports:
+    Rcpp (>= 0.12.14),
+    gamlss,
+    gamlss.dist,
+    ggplot2,
+    tidyr,
+    dplyr,
+    magrittr
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
