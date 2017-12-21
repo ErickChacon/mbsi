@@ -28,7 +28,7 @@ knitr::opts_chunk$set(fig.width = 12, fig.height = 7, fig.path = "README-")
 This package is not still on CRAN, so installation is done using the `devtools`
 package as shown below:
 
-```{r}
+```{r, eval = FALSE}
 devtools::install_github("ErickChacon/mbsi")
 ```
 
