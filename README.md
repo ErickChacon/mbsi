@@ -1,8 +1,8 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/ErickChacon/mbsi.svg?branch=master)](https://travis-ci.org/ErickChacon/mbsi)
 
-About the package: Model-based standardized index
-=================================================
+mbsi: Model-based standardized index
+====================================
 
 The mbsi package provide tools to compute and visualize extreme hydro-climatic events using the standardized precipitation index (SPI) and the model-based standardized index (MBSI). The difference with between the MBSPI and the classical SPI index is that it consider the association between continuous times using cycle P-splines ‘pbc’. The package can also with work with precipitation series containing missing values (NA), 0 or only non-zero values.
 
