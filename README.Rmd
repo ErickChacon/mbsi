@@ -1,0 +1,53 @@
+---
+output:
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12, fig.height = 7, fig.path = "README-")
+# options(width = 100)
+```
+
+[![Travis-CI Build Status](https://travis-ci.org/ErickChacon/mbsi.svg?branch=master)](https://travis-ci.org/ErickChacon/mbsi)
+
+# About the package: Model-based standardized index
+
+ The mbsi package provide tools to compute and visualize extreme
+ hydro-climatic events using the standardized precipitation index
+ (SPI) and the model-based standardized index (MBSI). The
+ difference with between the MBSPI and the classical SPI index is
+ that it consider the association between continuous times using
+ cycle P-splines ‘pbc’. The package can also with work with
+ precipitation series containing missing values (NA), 0 or only
+ non-zero values.
+
+# Installation
+
+This package is not still on CRAN, so installation is done using the `devtools`
+package as shown below:
+
+```{r}
+devtools::install_github("ErickChacon/mbsi")
+```
+
+# How to use it?
+
+```{r}
+library(mbsi)
+
+data(simrain)
+
+# Compute mbsi
+spi_rain <- mbsi(simrain$rain, simrain$time)
+
+# Visualize model fitting
+plot(spi_rain)
+
+# Visualize distribution of empirical cumulative density function
+plot(spi_rain, which = "ecdf", binwidth = 0.05)
+
+# Visualize extreme events
+plot_extremes(spi_rain, threshold = 2)
+```
