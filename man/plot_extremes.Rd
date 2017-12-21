@@ -30,6 +30,13 @@ values can be used for this threshold.
 }
 \examples{
 
+data(simrain)
+spi_rain <- mbsi(simrain$rain, simrain$time)
+
+# Visualize extreme events
+plot_extremes(spi_rain, threshold = 2)
+plot_extremes(spi_rain, threshold = 1.5)
+plot_extremes(spi_rain, threshold = 1)
 
 }
 \author{

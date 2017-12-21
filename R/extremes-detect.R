@@ -24,7 +24,15 @@
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @examples
-#' 
+#'
+#' data(simrain)
+#' # Compute standardized values
+#' spi_rain <- mbsi(simrain$rain, simrain$time)
+#' # Identify floods and droughts
+#' spi_rain$event <- find_flood_drought(spi_rain$spi, threshold = 2)
+#' spi_rain$event
+#'
+#' @importFrom stats qnorm
 #'
 #' @export
 find_flood_drought <- function (spi, threshold = qnorm(1-0.05/2) ,

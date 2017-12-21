@@ -2,26 +2,45 @@
 % Please edit documentation in R/spi-mbsi.R
 \name{plot.mbsi}
 \alias{plot.mbsi}
-\title{Plot fitting when computing the SPI}
+\title{Plot goodness of fit of the computation of the standardized precipitation}
 \usage{
 \method{plot}{mbsi}(x, which = c("fit", "ecdf"), binwidth = 0.05, ...)
 }
 \arguments{
-\item{data}{An \code{mbsi} object returned by \code{spi}.}
+\item{x}{A \code{mbsi} object returned by \code{spi} or \code{mbsi}.}
+
+\item{which}{A character value indicating which type of graph to return. The
+\strong{fit} option plots the mean and coverage interval of rainfall, while the
+\strong{ecdf} option plots an histogram of the empirical cumulative density
+function.}
+
+\item{binwidth}{The binwidth value for the histogram if \code{which == "ecdf"}.}
+
+\item{...}{Additional arguments}
 }
 \value{
 A \code{ggplot} object. The graph is shown when this object is printed.
 }
 \description{
-\code{plot.mbsi} make a graph of the mean and coverage interval obtained when
-computing the \code{spi}. This is useful to evaluate the seasonal behaviour and
-the parameter estimation made by the classical SPI.
+\code{plot.mbsi} make graphs to evaluate the goodness of fit of the \code{gamlss}
+model. This is useful to compare the \code{spi} and the \code{mbsi}.
 }
 \details{
-details.
+Two options are provided. The default option is a graph of the mean and coverage
+interval obtained from the computation of \code{spi} or \code{mbsi}. This is
+useful to evaluate the seasonal behaviour and the parameter estimation. The second
+option is the histogram of the empirical cumulative density function to assess the
+probability integral transform.
 }
 \examples{
 
+data(simrain)
+spi_rain <- mbsi(simrain$rain, simrain$time)
+
+# Visualize model fitting
+plot(spi_rain)
+# Visualize distribution of empirical cumulative density function
+plot(spi_rain, which = "ecdf", binwidth = 0.05)
 
 }
 \author{

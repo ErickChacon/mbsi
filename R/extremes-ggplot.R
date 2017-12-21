@@ -96,6 +96,11 @@ stat_events <- function(mapping = NULL, data = NULL, geom = "ribbon",
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @examples
+#'
+#' x <- 1:10
+#' x[3] <- NA
+#' cumsum_na(x)
 #' @export
 cumsum_na <- function (x, ...) {
   x[is.na(x)] <- 0
@@ -127,7 +132,14 @@ cumsum_na <- function (x, ...) {
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @examples
-#' 
+#'
+#' data(simrain)
+#' spi_rain <- mbsi(simrain$rain, simrain$time)
+#'
+#' # Visualize extreme events
+#' plot_extremes(spi_rain, threshold = 2)
+#' plot_extremes(spi_rain, threshold = 1.5)
+#' plot_extremes(spi_rain, threshold = 1)
 #'
 #' @importFrom dplyr mutate
 #' @importFrom ggplot2 ggplot aes geom_line geom_hline scale_fill_brewer theme

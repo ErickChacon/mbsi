@@ -9,11 +9,16 @@ mbsi(y, time, tscale = 1, period = 365/7)
 \arguments{
 \item{y}{Precipitation level or other variable under study.}
 
-\item{time}{Time associated with the variable \code{y}.}
+\item{time}{Time associated with the variable \code{y}. This variable can be in
+weeks, months, etc.}
 
-\item{tscale}{Time-scale to compute the MBSI in \code{time} units.}
+\item{tscale}{Time-scale to compute the MBSI in \code{time} units. This argument
+is used to return the standardized values at this scale. Usually defined to
+identify different types of droughts of floods.}
 
-\item{period}{Period (e.g. 53 weeks) defined to model the seasonal effect.}
+\item{period}{Numeric value representing the period to define seasonality. For
+example, 53 weeks, 12 months, 365 days. As it can be seen, it depends of the units
+of the argument \code{time}.}
 }
 \value{
 A dataframe consisting of \code{y}, \code{time}, \code{season}, \code{mu},
@@ -28,6 +33,19 @@ only non-zero values.
 }
 \details{
 details.
+}
+\examples{
+
+data(simrain)
+spi_rain <- mbsi(simrain$rain, simrain$time)
+
+# Visualize model fitting
+plot(spi_rain)
+# Visualize distribution of empirical cumulative density function
+plot(spi_rain, which = "ecdf", binwidth = 0.05)
+# Visualize extreme events
+plot_extremes(spi_rain, threshold = 2)
+
 }
 \author{
 Erick A. Chacon-Montalvan

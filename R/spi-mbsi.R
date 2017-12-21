@@ -12,20 +12,38 @@
 #' details.
 #'
 #' @param y Precipitation level or other variable under study.
-#' @param time Time associated with the variable \code{y}.
-#' @param tscale Time-scale to compute the MBSI in \code{time} units.
-#' @param period Period (e.g. 53 weeks) defined to model the seasonal effect.
+#' @param time Time associated with the variable \code{y}. This variable can be in
+#' weeks, months, etc.
+#' @param tscale Time-scale to compute the MBSI in \code{time} units. This argument
+#' is used to return the standardized values at this scale. Usually defined to
+#' identify different types of droughts of floods.
+#' @param period Numeric value representing the period to define seasonality. For
+#' example, 53 weeks, 12 months, 365 days. As it can be seen, it depends of the units
+#' of the argument \code{time}.
 #'
 #' @return A dataframe consisting of \code{y}, \code{time}, \code{season}, \code{mu},
 #' \code{sigma}, \code{pzero}, \code{ecdf} and \code{spi}.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
+#' @examples
+#'
+#' data(simrain)
+#' spi_rain <- mbsi(simrain$rain, simrain$time)
+#'
+#' # Visualize model fitting
+#' plot(spi_rain)
+#' # Visualize distribution of empirical cumulative density function
+#' plot(spi_rain, which = "ecdf", binwidth = 0.05)
+#' # Visualize extreme events
+#' plot_extremes(spi_rain, threshold = 2)
+#'
 #' @importFrom utils getFromNamespace
 #' @importFrom gamlss gamlss
 #' @importFrom dplyr mutate
 #' @importFrom gamlss.dist pZAGA ZAGA GA
 #' @importFrom gamlss gamlss
+#' @importFrom stats pnorm
 #'
 #' @export
 mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
@@ -82,30 +100,47 @@ mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
 }
 
 
-#' @title Plot fitting when computing the SPI
+#' @title Plot goodness of fit of the computation of the standardized precipitation
 #'
 #' @description
-#' \code{plot.mbsi} make a graph of the mean and coverage interval obtained when
-#' computing the \code{spi}. This is useful to evaluate the seasonal behaviour and
-#' the parameter estimation made by the classical SPI.
+#' \code{plot.mbsi} make graphs to evaluate the goodness of fit of the \code{gamlss}
+#' model. This is useful to compare the \code{spi} and the \code{mbsi}.
 #'
 #' @details
-#' details.
+#' Two options are provided. The default option is a graph of the mean and coverage
+#' interval obtained from the computation of \code{spi} or \code{mbsi}. This is
+#' useful to evaluate the seasonal behaviour and the parameter estimation. The second
+#' option is the histogram of the empirical cumulative density function to assess the
+#' probability integral transform.
 #'
-#' @param data An \code{mbsi} object returned by \code{spi}.
+#' @param x A \code{mbsi} object returned by \code{spi} or \code{mbsi}.
+#' @param which A character value indicating which type of graph to return. The
+#' \strong{fit} option plots the mean and coverage interval of rainfall, while the
+#' \strong{ecdf} option plots an histogram of the empirical cumulative density
+#' function.
+#' @param binwidth The binwidth value for the histogram if \code{which == "ecdf"}.
+#' @param ... Additional arguments
 #'
 #' @return A \code{ggplot} object. The graph is shown when this object is printed.
 #'
 #' @author Erick A. Chacon-Montalvan
 #'
 #' @examples
-#' 
+#'
+#' data(simrain)
+#' spi_rain <- mbsi(simrain$rain, simrain$time)
+#'
+#' # Visualize model fitting
+#' plot(spi_rain)
+#' # Visualize distribution of empirical cumulative density function
+#' plot(spi_rain, which = "ecdf", binwidth = 0.05)
 #'
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather
 #' @importFrom gamlss.dist qZAGA
 #' @importFrom ggplot2 ggplot aes geom_ribbon geom_line scale_colour_brewer theme
 #' @importFrom ggplot2 element_blank
+#' @importFrom grDevices rgb
 #'
 #' @export
 plot.mbsi <- function (x, which = c("fit", "ecdf"), binwidth = 0.05, ...) {
@@ -133,7 +168,7 @@ plot.mbsi <- function (x, which = c("fit", "ecdf"), binwidth = 0.05, ...) {
       ggplot2::ggplot(ggplot2::aes(time, y)) +
       ggplot2::geom_ribbon(
         ggplot2::aes(ymin = q025, ymax = q975, fill = "95% Coverage interval"),
-        col = rgb(1,0,0, 0.3), alpha = 0.1
+        col = grDevices::rgb(1,0,0, 0.3), alpha = 0.1
         ) +
       ggplot2::geom_line(aes(y = varvalue, col = varname, linetype = varname),
         data_longer) +

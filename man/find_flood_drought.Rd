@@ -33,6 +33,12 @@ values can be used for this threshold.
 }
 \examples{
 
+data(simrain)
+# Compute standardized values
+spi_rain <- mbsi(simrain$rain, simrain$time)
+# Identify floods and droughts
+spi_rain$event <- find_flood_drought(spi_rain$spi, threshold = 2)
+spi_rain$event
 
 }
 \author{

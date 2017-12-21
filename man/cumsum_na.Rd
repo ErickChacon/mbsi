@@ -18,6 +18,12 @@ cumsum_na(x, ...)
 When missing values are present, \code{cumsum_na} replace missing values for 0 and
 compute the usual \code{cumsum}.
 }
+\examples{
+
+x <- 1:10
+x[3] <- NA
+cumsum_na(x)
+}
 \author{
 Erick A. Chacon-Montalvan
 }

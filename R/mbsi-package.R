@@ -18,3 +18,15 @@
 #' @importFrom magrittr %>%
 "_PACKAGE"
 
+if(getRversion() >= "2.15.1") utils::globalVariables(
+  c(".",
+    "y", "time",
+    "mu", "sigma", "pzero",
+    "ecdf", "spi",
+    "ecdf0", "spi0",
+    "q025", "q975",
+    "data", "droughts", "floods", "event",
+    "varname", "varvalue"
+    )
+  )
+
