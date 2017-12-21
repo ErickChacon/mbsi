@@ -34,13 +34,15 @@ devtools::install_github("ErickChacon/mbsi")
 
 # How to use it?
 
+## Analysing the standardized precipitation with time-scale 1
+
 ```{r mbsi}
 library(mbsi)
 
 data(simrain)
 
 # Compute mbsi
-spi_rain <- mbsi(simrain$rain, simrain$time)
+spi_rain <- mbsi(y = simrain$rain, time = simrain$time, tscale = 1, period = 52)
 ```
 
 ```{r mbsi_fit}
@@ -60,4 +62,27 @@ plot(spi_rain, which = "ecdf", binwidth = 0.05)
 plot_extremes(spi_rain, threshold = 2)
 ```
 
+## Analysing the standardized precipitation with time-scale 8
+
+```{r mbsi_8}
+# Compute mbsi
+spi_rain_8 <- mbsi(y = simrain$rain, time = simrain$time, tscale = 8, period = 52)
 ```
+
+```{r mbsi_fit_8}
+# Visualize model fitting
+plot(spi_rain_8)
+
+```
+
+```{r mbsi_ecdf_8}
+# Visualize distribution of empirical cumulative density function
+plot(spi_rain_8, which = "ecdf", binwidth = 0.05)
+
+```
+
+```{r mbsi_extremes_8}
+# Visualize extreme events
+plot_extremes(spi_rain_8, threshold = 2)
+```
+
