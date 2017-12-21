@@ -6,7 +6,7 @@ output:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-knitr::opts_chunk$set(fig.width = 12, fig.height = 7, fig.path = "README-")
+knitr::opts_chunk$set(fig.width = 12, fig.height = 7, fig.path = "README-", dpi = 200)
 # options(width = 100)
 ```
 
