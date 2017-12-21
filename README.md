@@ -48,19 +48,22 @@ spi_rain <- mbsi(simrain$rain, simrain$time)
 ## new prediction
 ```
 
+
 ```r
 # Visualize model fitting
 plot(spi_rain)
 ```
 
-<img src="README-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="README-mbsi_fit-1.png" title="plot of chunk mbsi_fit" alt="plot of chunk mbsi_fit" style="display: block; margin: auto;" />
+
 
 ```r
 # Visualize distribution of empirical cumulative density function
 plot(spi_rain, which = "ecdf", binwidth = 0.05)
 ```
 
-<img src="README-unnamed-chunk-2-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="README-mbsi_ecdf-1.png" title="plot of chunk mbsi_ecdf" alt="plot of chunk mbsi_ecdf" style="display: block; margin: auto;" />
+
 
 ```r
 # Visualize extreme events
@@ -73,4 +76,6 @@ plot_extremes(spi_rain, threshold = 2)
 ## Warning: Ignoring unknown aesthetics: event
 ```
 
-<img src="README-unnamed-chunk-2-3.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="README-mbsi_extremes-1.png" title="plot of chunk mbsi_extremes" alt="plot of chunk mbsi_extremes" style="display: block; margin: auto;" />
+
+```

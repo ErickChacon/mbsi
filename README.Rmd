@@ -34,20 +34,30 @@ devtools::install_github("ErickChacon/mbsi")
 
 # How to use it?
 
-```{r}
+```{r mbsi}
 library(mbsi)
 
 data(simrain)
 
 # Compute mbsi
 spi_rain <- mbsi(simrain$rain, simrain$time)
+```
 
+```{r mbsi_fit}
 # Visualize model fitting
 plot(spi_rain)
 
+```
+
+```{r mbsi_ecdf}
 # Visualize distribution of empirical cumulative density function
 plot(spi_rain, which = "ecdf", binwidth = 0.05)
 
+```
+
+```{r mbsi_extremes}
 # Visualize extreme events
 plot_extremes(spi_rain, threshold = 2)
+```
+
 ```
