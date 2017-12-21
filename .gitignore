@@ -31,3 +31,8 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# Rcpp files for debugging and testing packages
+src/*.o
+src/*.so
+src/*.dll
