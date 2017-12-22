@@ -55,10 +55,6 @@ plot(spi_rain, which = "ecdf", binwidth = 0.05)
 plot_extremes(spi_rain, threshold = 2)
 ```
 
-    ## Warning: Ignoring unknown aesthetics: event
-
-    ## Warning: Ignoring unknown aesthetics: event
-
 <img src="README-mbsi_extremes-1.png" style="display: block; margin: auto;" />
 
 Analysing the standardized precipitation with time-scale 8
@@ -87,23 +83,11 @@ plot(spi_rain_8)
 plot(spi_rain_8, which = "ecdf", binwidth = 0.05)
 ```
 
-    ## Warning: Removed 7 rows containing non-finite values (stat_bin).
-
 <img src="README-mbsi_ecdf_8-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # Visualize extreme events
 plot_extremes(spi_rain_8, threshold = 2)
 ```
-
-    ## Warning: Ignoring unknown aesthetics: event
-
-    ## Warning: Ignoring unknown aesthetics: event
-
-    ## Warning: Removed 7 rows containing non-finite values (stat_events).
-
-    ## Warning: Removed 7 rows containing non-finite values (stat_events).
-
-    ## Warning: Removed 7 rows containing missing values (geom_path).
 
 <img src="README-mbsi_extremes_8-1.png" style="display: block; margin: auto;" />
