@@ -151,8 +151,8 @@ plot.mbsi <- function (x, which = c("fit", "ecdf"), binwidth = 0.05, ...) {
   if (which == "fit") {
     data <- data %>%
       dplyr::mutate(
-        q025 = gamlss.dist::qZAGA(0.025, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
-        q975 = gamlss.dist::qZAGA(0.975, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero)
+        q025 = gamlss.dist::qZAGA(rep(0.025, n()), mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+        q975 = gamlss.dist::qZAGA(rep(0.975, n()), mu = mu, sigma = 1 / sqrt(sigma), nu = pzero)
         )
 
     data_longer <- data %>%
