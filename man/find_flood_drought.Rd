@@ -4,8 +4,8 @@
 \alias{find_flood_drought}
 \title{Detect floods and droughts based on Mckee et al. (1993)}
 \usage{
-find_flood_drought(spi, threshold = qnorm(1 - 0.05/2), labels = c("normal",
-  "drought", "flood"))
+find_flood_drought(spi, threshold = qnorm(1 - 0.05/2),
+  labels = c("normal", "drought", "flood"))
 }
 \arguments{
 \item{spi}{A vector representing the time series of the standardized values.}

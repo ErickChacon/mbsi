@@ -135,7 +135,7 @@ mbsi <- function(y, time, tscale = 1, period = 365 / 7) {
 #' # Visualize distribution of empirical cumulative density function
 #' plot(spi_rain, which = "ecdf", binwidth = 0.05)
 #'
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate n
 #' @importFrom tidyr gather
 #' @importFrom gamlss.dist qZAGA
 #' @importFrom ggplot2 ggplot aes geom_ribbon geom_line scale_colour_brewer theme
