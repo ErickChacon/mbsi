@@ -146,7 +146,7 @@ cumsum_na <- function (x, ...) {
 #' @importFrom ggplot2 element_blank
 #'
 #' @export
-plot_extremes <- function (data, threshold = 1) {
+plot_extremes <- function (data, threshold = 1, timevar = time) {
 
   # Detect extreme events
   data <- data %>% dplyr::mutate(
@@ -155,13 +155,13 @@ plot_extremes <- function (data, threshold = 1) {
     droughts = 1 * (event == "drought")
     )
 
-  gg_extreme <- ggplot2::ggplot(data, ggplot2::aes(time, spi)) +
+  gg_extreme <- ggplot2::ggplot(data, ggplot2::aes(!!ensym(timevar), spi)) +
     ggplot2::geom_line(size = 0.3) +
     ggplot2::geom_hline(yintercept = c(-1, 1) * threshold, linetype = 2, alpha = 0.3) +
     stat_events(aes(event = floods, fill = "Flood"), alpha = 0.6) +
     stat_events(aes(event = droughts, fill = "Drought     "), alpha = 0.7) +
     ggplot2::scale_fill_brewer(palette = "Set1") +
-    ggplot2::labs(y = "standardized value")
+    ggplot2::labs(y = "standardized value") +
     ggplot2::theme(legend.position = "bottom", legend.title = ggplot2::element_blank(),
           axis.title.x = ggplot2::element_blank())
 

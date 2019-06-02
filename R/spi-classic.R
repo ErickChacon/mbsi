@@ -64,9 +64,27 @@ spi <- function(y, time, tscale = 1, period = 52) {
 
   # Compute the spi and additional variables.
   y_data <- y_data %>% dplyr::mutate(
-    ecdf = gamlss.dist::pZAGA(y, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
-    spi = qnorm(ecdf)
-    )
+    q025 = gamlss.dist::qZAGA(rep(0.025, n()), mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+    q975 = gamlss.dist::qZAGA(rep(0.975, n()), mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+    mean = mu)
+
+  y_data$ecdf <- NA
+  ind <- !is.na(y)
+  y_data <- y_data %>%
+    within({
+      ecdf[ind] <- gamlss.dist::pZAGA(y[ind], mu = mu[ind],
+                                      sigma = 1 / sqrt(sigma[ind]), nu = pzero[ind])
+      spi <- qnorm(ecdf)
+    })
+
+    y_data$qq_emp <- quantile(y_data$spi, y_data$ecdf, na.rm = TRUE)
+    y_data$qq_the <- qnorm(y_data$ecdf, mean(y_data$spi, na.rm = TRUE), sd(y_data$spi, na.rm = TRUE))
+
+
+  # y_data <- y_data %>% dplyr::mutate(
+  #   ecdf = gamlss.dist::pZAGA(y, mu = mu, sigma = 1 / sqrt(sigma), nu = pzero),
+  #   spi = qnorm(ecdf)
+  #   )
 
   class(y_data) <- c("mbsi", class(y_data))
 
