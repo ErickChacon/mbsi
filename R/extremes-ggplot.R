@@ -19,7 +19,8 @@ StatEvents <- ggplot2::ggproto("StatEvents", ggplot2::Stat,
     # data$y[data$y < threshold] <- NA
     data <- data.frame(x = c(data$x, transition$x),
                        y = c(data$y, transition$y),
-                       ymin = threshold,
+                       # ymin = threshold,
+                       ymin = max(data$x),
                        ymax = c(data$y, transition$y))
   }
 )
